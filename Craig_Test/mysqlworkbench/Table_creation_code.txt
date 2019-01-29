@@ -1,8 +1,7 @@
 CREATE DATABASE nbafantasyml;
 
 CREATE TABLE Yearly_Player_Stats
-    (UNIQUE_ID AUTO_INCREMENT,
-    personId VARCHAR(40),
+    (personId VARCHAR(40),
     seasonYear VARCHAR(40),
     PTG FLOAT,
     TRB FLOAT,
@@ -18,7 +17,7 @@ CREATE TABLE Yearly_Player_Stats
     FTA FLOAT,
     FTP FLOAT,
     PLUSMINUS FLOAT
-    PRIMARY KEY (personId))
+    PRIMARY KEY (personId));
 
 CREATE TABLE NBA_TEAMS
    (teamId VARCHAR(40),
