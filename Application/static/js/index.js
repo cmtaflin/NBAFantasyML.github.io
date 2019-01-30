@@ -1,0 +1,1 @@
+// Javascript file for the home page - index.html
