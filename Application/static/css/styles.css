@@ -1,2 +1,175 @@
 /* style sheet for our web pages. */
+/* Giving the body the specified background color, adding font sizes for the h1 and h3 elements we'll be using */
+body {
+  padding: 5px;
+  margin: 0px;
+  background:  #f8f8f5;
+  text-align: left;
+}
+/* Giving our navbar some padding and a background color */
+.navbar {
+  padding-bottom: 20px;
+  /* margin-bottom: 20px; */
+  background: #0d48b6;
+}
+h1 {
+  font-size: 50px;
+  text-align: right;
+  font-display: bold;
+  font-family: Arial;
+  color:#0d48b6;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+/* Making our navbar li's inline-block elements this makes it so we can have multiple on the same line. Floats could have been used too */
+.navbar a {
+  margin: auto;
+  float: left; 
+  cursor: pointer;
+  background: #0d48b6;
+  font: 1.5em sans-serif;
+  text-decoration: none;
+  border-radius: 25px; 
+  text-align: center;
+  color: #f8f8f5 
+  
+}
+.navbar a:hover {
+  background-color: #f8f8f5;
+  font: bold;
+  color: #0d48b6;
+}
+
+select {
+  margin-left: 30px;
+}
+/* .custom-select1 {
+  position: relative;
+  font-family: Arial;
+  color: #350431;
+  size: 60px;
+ float: right;
+}  */
+.select-selected {
+  background-color: #0d48b6;
+}
+.select-selected:after {
+  position: relative;
+  content: "";
+  top: 14px;
+  right: 5px;
+  width: 0;
+  height: 0;
+  border: 15px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+.box1 {
+height: 400px;
+padding: 20px;
+color: rgb(26, 22, 22);
+background: #f8f8f5;
+border: 1px solid #0d48b6;
+}
+
+
+.box2 {
+  height: 400px;
+  padding-top: 51px;
+  color: rgb(26, 22, 22);
+  background: #f8f8f5;
+  border-top: 1px solid #0d48b6;
+  border-right: 1px solid #0d48b6;
+  border-bottom: 1px solid #0d48b6;
+  }
+
+.btn {
+  color: #f8f8f5;
+  font-family: Arial;
+  background: #0d48b6;
+  height: 30px;
+  width: 75px;
+}
+/* .btn1 {
+  color: #f0f0d5;;
+  font-family: Arial;
+  background: #350431;
+  height: 30px;
+  width: 75px;
+  float: right;
+  margin: 0;
+} */
+.btn:hover {
+color: #f8f8f5;
+}
+/* .btn1:hover {
+  color: #f0f0d5;
+  } */
+.gadget {
+  margin-left: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 30px;
+}
+/* .gadget1 {
+  margin-left: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 30px;
+  float: right;
+} */
+.outer {
+  height: 10px;
+  width: 10px;
+}
+/*.vertical-menu {
+
+  width: 500px;
+  height: 450px;
+  overflow-y: auto;
+}
+.vertical-menu a {
+background-color: #cc79e0;
+color: #0e0d0d;
+padding: 10px;
+text-decoration: none;
+font: 1em sans-serif;
+}
+.vertical-menu a:hover {
+
+  background-color: #350431;
+  font: bold;
+  color: beige;
+}
+*/
+.header {
+  padding: 80px;
+  margin: auto;
+  float: left;
+} 
+/* Column container */
+.row1 {  
+  display: flex;
+  flex-wrap: wrap; 
+}
+.row2 {  
+  display: flex;
+  flex-wrap: wrap; 
+}
+/* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side {
+  flex: 30%;
+  -ms-flex: 30%;
+  background-color: rgb(224, 166, 224);
+  padding: 20px;
+  border-block-end: #0d48b6
+}
+/* Main column */
+.main {   
+  flex: 70%;
+  -ms-flex: 70%;
+  background-color:wheat;
+  padding: 20px;
+}
+ Getting rid of the default link styles here 
+.navbar li a {
+  color: #000;
+  text-decoration: none;
 
