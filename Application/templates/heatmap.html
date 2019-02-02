@@ -1,53 +1,46 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>NBA Venue Locations</title>
-
-  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
-
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
   <link rel="stylesheet" href="../static/css/styles.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
-
-
 </head>
-
 <body>
-
-  <div class="container">
-        <div class="outer">
-            <img src="">
-         </div>
-      <header class="header"> 
-      </header>
-        <h1>NBA Venue Locations</h1> 
-    </div>
-    
-     </div>
-    
-     <div class="navbar">  
-        <a href="/">Home</a>
-        <a href="/heatmap">Heatmap</a>
-        <a href="/playerdraft">PlayerDraft</a>
-        <a href="/fantasymatch">FantasyMatch</a>
-        <a href="/pointsposition">PointsPosition</a>
+  <div class="container-fluid">
+    <div class="container">
+     <div class="outer">
+      <img src="">
+    </div> 
+  </div>
+  <header id="top-header">
+    <img class="resize" src="../assets/images/nba.jpg">
+  </header>
+    <div class="navbar">
+      <a href="index.html">Home</a>
+      <a href="heatmap.html">Heatmap</a>
+      <a href="playerdraft.html">PlayerDraft</a>
+      <a href="fantasymatch.html">FantasyMatch</a>
+      <a href="pointsposition.html">PointsPosition</a>
     </div>
     <div id = "map"></div>
-
-
-  <!-- Leaflet JavaScript -->
+  
+  <!-- <div class="row">
+      <form action="">
+        <div class="col-md-12">
+          <div class="box4">
+        </div>
+      </form> 
+    </div> -->
+     <!-- Leaflet JavaScript -->
   <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
-  <script src="../static/js/config.js"></script>  
+  <script src="../static/js/config.js"></script>
   <script src="../static/js/heatmap.js"></script>
-  
 </body>
 
 </html>

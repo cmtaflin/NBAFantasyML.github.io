@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -9,227 +8,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
-
-
 </head>
 <body>
-
-<div class="container-fluid">
-  <div class="container">
-    <div class="outer">
+  <div class="container-fluid">
+    <div class="container">
+     <div class="outer">
       <img src="">
     </div> 
   </div>
   <header id="top-header">
-    <img src="nba.jpg">
+    <img class="resize" src="../assets/images/nba.jpg">
   </header>
     <div class="navbar">
-      <a href="#">Home</a>
-      <a href="#">Heatmap</a>
-      <a href="#">PlayerDraft</a>
-      <a href="#">FantacyMatch</a>
-      <a href="#">PointsPosition</a>
+      <a href="index.html">Home</a>
+      <a href="heatmap.html">Heatmap</a>
+      <a href="playerdraft.html">PlayerDraft</a>
+      <a href="fantasymatch.html">FantasyMatch</a>
+      <a href="pointsposition.html">PointsPosition</a>
     </div>
-  </div>
-
+  
   <div class="row">
       <form action="">
         <div class="col-md-4">
-          <div class="box1">
-            How many teams are in the League?
-            <input type="text" value=>
+          <div class="box3">
+            
         </div>
       </div>
       <div class="col-md-4">
-        <div class="box1">
-            How many players does each roster have?
-            <input type="text" value=>
+        <div class="box3">
+            
         </div>
       </div>
       <div class="col-md-4">
-        <div class="box1">
-            <button id="filter-btn" type="submit" class="btn">Get the Stats!</button>
+        <div class="box3">
+           
         </div>
       </div>
       </form> 
     </div>
-    <br>
-    <div class="row2">
-      <div class="col-md-4">
-        <div class="box2">
-            
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="box2">
-            
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="box2">
-            
-        </div>
-      </div>
-    </div>
-    
-    <div class="row3">
-        <div class="col-md-4">
-          <div class="box2">
-          </div>    
-        </div>
-        <div class="col-md-4">
-          <div class="box2">
-          </div>    
-        </div>
-        <div class="col-md-4">
-          <div class="box2">
-          </div>    
-        </div>
-    </div>   
-    <br>
-    <br>
-    <div class="row4">
-    <div class="col-md-5">
-          <div id="table-area" class="">
-            <table id="stat-table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th class="table-head">Players</th>
-                  <th class="table-head">FG%</th>
-                  <th class="table-head">FT%</th>
-                  <th class="table-head">3PTM</th>
-                  <th class="table-head">PTS</th>
-                  <th class="table-head">REB</th>
-                  <th class="table-head">AST</th>
-                  <th class="table-head">ST</th>
-                  <th class="table-head">BLK</th>
-                  <th class="table-head">TO</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-              </div>
-            </table>
-          </div>
-        
-        </div>
-      </div>
-
-      <div class="col-md-1">
-          <div id="table-area" class="">
-            <table id="stat-table" class="table table-striped">
-              <thead>
-                
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-          <div id="table-area" class="">
-            <table id="stat-table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th class="table-head">Players</th>
-                  <th class="table-head">FG%</th>
-                  <th class="table-head">FT%</th>
-                  <th class="table-head">3PTM</th>
-                  <th class="table-head">PTS</th>
-                  <th class="table-head">REB</th>
-                  <th class="table-head">AST</th>
-                  <th class="table-head">ST</th>
-                  <th class="table-head">BLK</th>
-                  <th class="table-head">TO</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-
-      <div class="row5">
-    <div class="col-md-5">
-          <div id="table-area" class="">
-            <table id="stat-table" class="table table-striped">
-              <thead>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1"></th></tr>
-              </thead>
-              <tbody></tbody>
-              </div>
-            </table>
-          </div>
-        
-        </div>
-      </div>
-
-      <div class="col-md-1">
-          <div id="table-area" class="">
-            <table id="stat-table" class="table table-striped">
-              <thead>
-                <tr><th class="table-head2">PG</th></tr>
-                <tr><th class="table-head2">SG</th></tr>
-                <tr><th class="table-head2">G</th></tr>
-                <tr><th class="table-head2">SF</th></tr>
-                <tr><th class="table-head2">PF</th></tr>
-                <tr><th class="table-head2">F</th></tr>
-                <tr><th class="table-head2">C</th></tr>
-                <tr><th class="table-head2">C</th></tr>
-                <tr><th class="table-head2">Util</th></tr>
-                <tr><th class="table-head2">Util</th></tr>
-                <tr><th class="table-head2">TOTAL</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-          <div id="table-area" class="">
-            <table id="stat-table" class="table table-striped">
-              <thead>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                  <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1">(Empty)</th></tr>
-                 <tr><th class="table-head1"></th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-
-
-
-
-
-
-
-
-  </body>
-  
   <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
   <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.js"></script>  
-  <script src="../static/js/index.js"></script>
+  <script src="../static/js/playerdraft.js"></script>
   <script src="../static/js/config.js"></script>
 </body>
 
