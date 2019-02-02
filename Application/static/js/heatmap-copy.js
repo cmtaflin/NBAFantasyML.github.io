@@ -2,11 +2,12 @@
 
 // load the API key for mapbox:
 var apiKey = API_KEY;
+
 var map = L.map("map", {
-    center: [
-        37.48, -98.75
-    ],
-    zoom: 4
+  center: [
+      37.48, -98.75
+  ],
+  zoom: 4
 });
 
 // add the basemaps
@@ -22,7 +23,7 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 //   attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
 //   maxZoom: 18,
 //   id: "mapbox.streets-satellite",
-//   accessToken: API_KEY
+//   accessToken: apiKey
 // });
 
 // create the map object 
@@ -30,7 +31,8 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 //     center: [
 //         37.48, -98.75
 //     ],
-//     zoom: 3
+//     zoom: 3,
+//     layers: [grayScaleMap, imageMap]
 // });
 
 // Add the tile layer to the map.
@@ -49,7 +51,7 @@ var TeamLoc = new L.LayerGroup();
 var location_path = "/heatmap_data";
 console.log(location_path);
 d3.json(location_path, function(response) {
-    //console.log(response.LATITUDE);
+    console.log(response.LATITUDE);
     // var TeamVenue = [];
 
     function getRadius(population) {
@@ -76,5 +78,6 @@ d3.json(location_path, function(response) {
 });
 
 TeamLoc.addTo(map);
+
 
 // create legend for map
