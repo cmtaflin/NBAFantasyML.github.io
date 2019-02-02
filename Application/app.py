@@ -9,6 +9,7 @@ import os
 
 import pandas as pd
 import numpy as np
+import json
 
 #commenting out mySQL reference since we are using SQLite
 #import pymysql
@@ -23,6 +24,8 @@ import sqlite3
 from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
+
+import Draft
 
 #################################################
 # Database Setup
@@ -42,7 +45,7 @@ session = Session(db.engine)
 # Save references to each table
 Team_Loc = Base.classes.Team_Locations
 Teams = Base.classes.All_Teams
-Draft = Base.classes.NBA_Fantasy_Draft
+Fantasy_Draft = Base.classes.NBA_Fantasy_Draft
 Season1617 = Base.classes.season_2016_2017
 Season1718 = Base.classes.season_2017_2018
 
@@ -77,6 +80,19 @@ def fantasymatch():
 def pointsposition():
     
     return render_template("pointsposition.html")
+
+
+@app.route("/draft_data")
+def draft_data():
+    
+    draft_info = Draft.log_regression(2016,13,10,10)
+    #draftData = json.loads(draft_info.to_json(orient='records'))
+    #draftData = draft_info.to_json(orient='table')
+    temp = draft_info.to_dict('records')
+    draftData = [dict(i) for i in temp]
+    
+    
+    return jsonify(draftData)
 
 
 @app.route("/heatmap_data")
