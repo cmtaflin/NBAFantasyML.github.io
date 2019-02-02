@@ -90,9 +90,19 @@ def draft_data():
     #draftData = draft_info.to_json(orient='table')
     temp = draft_info.to_dict('records')
     draftData = [dict(i) for i in temp]
-    
-    
+        
     return jsonify(draftData)
+
+@app.route("/draft_data/<roster_size>")
+def draft_roster(roster_size):
+    
+    draft_info2 = Draft.log_regression(2016,roster_size,10,10)
+    #draftData = json.loads(draft_info.to_json(orient='records'))
+    #draftData = draft_info.to_json(orient='table')
+    temp_data = draft_info2.to_dict('records')
+    draftData2 = [dict(i) for i in temp_data]
+        
+    return jsonify(draftData2)
 
 
 @app.route("/heatmap_data")
