@@ -42,6 +42,9 @@ session = Session(db.engine)
 # Save references to each table
 Team_Loc = Base.classes.Team_Locations
 Teams = Base.classes.All_Teams
+Draft = Base.classes.NBA_Fantasy_Draft
+Season1617 = Base.classes.season_2016_2017
+Season1718 = Base.classes.season_2017_2018
 
 
 
