@@ -93,10 +93,12 @@ def draft_data():
         
     return jsonify(draftData)
 
-@app.route("/draft_data/<roster_size>")
-def draft_roster(roster_size):
-    
-    draft_info2 = Draft.log_regression(2016,roster_size,10,10)
+
+@app.route("/draft_data/<roster_size>/<num_teams>")
+def draft_roster(roster_size, num_teams):
+    roster_size = pd.to_numeric(roster_size).astype("int")
+    num_teams = pd.to_numeric(num_teams).astype("int")
+    draft_info2 = Draft.log_regression(2016,roster_size,num_teams,10)
     #draftData = json.loads(draft_info.to_json(orient='records'))
     #draftData = draft_info.to_json(orient='table')
     temp_data = draft_info2.to_dict('records')
