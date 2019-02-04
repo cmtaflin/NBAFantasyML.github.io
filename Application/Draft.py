@@ -27,9 +27,9 @@ def conntest():
 # the input df has a column TOP if top players have been predicted by the logistic model
 # otherwise, the top players will be ranked by VORP
 def zscore(df, sample_size=130, min_games=10):
-
     
     if "TOP" in df.columns:
+        print("top")
         sample_size = df["TOP"].sum()
         top_players = df[df["TOP"]==1]
     else:
@@ -38,21 +38,21 @@ def zscore(df, sample_size=130, min_games=10):
         df = pd.merge(top_players[["Player", "TOP"]], df, on="Player", how="outer").fillna(0)
 
     # calculate adjusted percentages
-    top_players['adj_FG'] = (10*(top_players['FG'].sum() / sample_size) + top_players["FG"]) / (10*(top_players['FGA'].sum() / sample_size) + top_players["FGA"])
-    top_players['adj_FT'] = (10*(top_players['FT'].sum() / sample_size) + top_players["FT"]) / (10*(top_players['FTA'].sum() / sample_size) + top_players["FTA"])
-    df['adj_FG'] = (10*(top_players['FG'].sum() / sample_size) + df["FG"]) / (10*(top_players['FGA'].sum() / sample_size) + df["FGA"])
-    df['adj_FT'] = (10*(top_players['FT'].sum() / sample_size) + df["FT"]) / (10*(top_players['FTA'].sum() / sample_size) + df["FTA"])
+    top_players['adj_FG'] = (10*(top_players['fgm'].sum() / sample_size) + top_players["fgm"]) / (10*(top_players['fga'].sum() / sample_size) + top_players["fga"])
+    top_players['adj_FT'] = (10*(top_players['ftm'].sum() / sample_size) + top_players["ftm"]) / (10*(top_players['fta'].sum() / sample_size) + top_players["fta"])
+    df['adj_FG'] = (10*(top_players['fgm'].sum() / sample_size) + df["fgm"]) / (10*(top_players['fga'].sum() / sample_size) + df["fga"])
+    df['adj_FT'] = (10*(top_players['ftm'].sum() / sample_size) + df["ftm"]) / (10*(top_players['fta'].sum() / sample_size) + df["fta"])
 
     # calculate z-scores and average z-score
     df["zFG"] = (df["adj_FG"] - top_players["adj_FG"].mean()) / top_players["adj_FG"].std()
     df["zFT"] = (df["adj_FT"] - top_players["adj_FT"].mean()) / top_players["adj_FT"].std()
-    df["z3P"] = (df["3P"] - top_players["3P"].mean()) / top_players["3P"].std()
-    df["zPTS"] = (df["PTS"] - top_players["PTS"].mean()) / top_players["PTS"].std()
-    df["zREB"] = (df["TRB"] - top_players["TRB"].mean()) / top_players["TRB"].std()
-    df["zAST"] = (df["AST"] - top_players["AST"].mean()) / top_players["AST"].std()
-    df["zSTL"] = (df["STL"] - top_players["STL"].mean()) / top_players["STL"].std()
-    df["zBLK"] = (df["BLK"] - top_players["BLK"].mean()) / top_players["BLK"].std()
-    df["zTOV"] = (top_players["TOV"].mean() - df["TOV"]) / top_players["TOV"].std()
+    df["z3P"] = (df["tpm"] - top_players["tpm"].mean()) / top_players["tpm"].std()
+    df["zPTS"] = (df["points"] - top_players["points"].mean()) / top_players["points"].std()
+    df["zREB"] = (df["totReb"] - top_players["totReb"].mean()) / top_players["totReb"].std()
+    df["zAST"] = (df["assists"] - top_players["assists"].mean()) / top_players["assists"].std()
+    df["zSTL"] = (df["steals"] - top_players["steals"].mean()) / top_players["steals"].std()
+    df["zBLK"] = (df["blocks"] - top_players["blocks"].mean()) / top_players["blocks"].std()
+    df["zTOV"] = (top_players["turnovers"].mean() - df["turnovers"]) / top_players["turnovers"].std()
     df["zAVG"] = (df["zFG"] + df["zFT"] + df["z3P"] + df["zPTS"] + df["zREB"] + df["zAST"] + df["zSTL"] + df["zBLK"] + df["zTOV"]) / 9
 
     # rank by avg z-score
@@ -64,26 +64,23 @@ def zscore(df, sample_size=130, min_games=10):
     
     return df;
 
-
 # season (int): the first season is used to train the model to predict top players for the next year
 # roster_size (int): number of players per team in the league
 # num_teams (int): number of teams in the fantasy league
 # min_games (int): minimum number of games to include player on chart
 def log_regression(season, roster_size = 13, num_teams = 10, min_games = 10):
     
-    conn = conntest()    
+    conn = conntest()
     
     df = pd.read_sql(f'select * from season_{season}_{season+1}', conn)
-    
-    #file_to_load = f"Resources/{season}_{season+1}.csv"
-    #df = pd.read_csv(file_to_load)
     
     sample_size = roster_size*num_teams
 
     df = zscore(df, sample_size)
     
     # Assign X (data) and y (target)
-    X = df.drop(["Player", "TOP", "Rookie", "Pos", "G", "VORP"], axis=1)
+    X = df[['fgm', 'fga', 'fgp', 'tpm', 'tpa', 'tpp', 'ftm', 'fta', 'ftp', 'offReb', \
+            'defReb', 'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'points']]
     y = df["TOP"]
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1, stratify=y)
@@ -106,14 +103,14 @@ def log_regression(season, roster_size = 13, num_teams = 10, min_games = 10):
     
     next_df = pd.read_sql(f'select * from season_{season+1}_{season+2}', conn)
     
-    next_df = zscore(next_df, sample_size)
-    X = next_df.drop(["TOP","Player", "Rookie", "Pos", "G", "VORP"], axis=1).fillna(0)
+    #next_df = zscore(next_df, sample_size)
+    X = next_df[['fgm', 'fga', 'fgp', 'tpm', 'tpa', 'tpp', 'ftm', 'fta', 'ftp', 'offReb', \
+            'defReb', 'totReb', 'assists', 'steals', 'blocks', 'turnovers', 'points']]
     predictions = classifier.predict(X)
     
     next_df["TOP"] = predictions
     print(f"z-score calculated with {next_df['TOP'].sum()} top players")
     next_df = zscore(next_df, sample_size)
     next_df.index.name = "Rank"
-    #next_df.to_csv(f"Resources/log_rank_{season+2}_{season+3}.csv", index=True)
     
-    return next_df
+    return next_df;
