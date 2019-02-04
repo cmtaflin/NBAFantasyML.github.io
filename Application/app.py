@@ -26,6 +26,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 import Draft
+import Matchup
 
 #################################################
 # Database Setup
@@ -105,6 +106,16 @@ def draft_roster(roster_size, num_teams):
     draftData2 = [dict(i) for i in temp_data]
         
     return jsonify(draftData2)
+
+@app.route("/matchup_data")
+def matchup_data():
+    
+    matchup_info = Matchup.fantasy_matchup()
+    matchupData = matchup_info.to_dict('dict')
+    #temp = matchup_info.to_dict('records')
+    #matchupData = [dict(i) for i in temp]
+        
+    return jsonify(matchupData)
 
 
 @app.route("/heatmap_data")
