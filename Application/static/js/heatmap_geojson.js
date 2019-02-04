@@ -2,59 +2,63 @@
 
 // load the API key for mapbox:
 var apiKey = API_KEY;
-var map = L.map("map", {
-    center: [
-        37.48, -98.75
-    ],
-    zoom: 4
-});
+
 
 // add the basemaps
-L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+var grayScaleMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
     maxZoom: 9,
     id: "mapbox.light",
-    minZoom: 3,
+    minZoom: 4,
     accessToken: API_KEY
-}).addTo(map);
+});
 
-// var imageMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-//   attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
-//   maxZoom: 18,
-//   id: "mapbox.streets-satellite",
-//   accessToken: API_KEY
-// });
+var imageMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
+  maxZoom: 9,
+  id: "mapbox.streets-satellite",
+  minZoom: 4,
+  accessToken: API_KEY
+});
 
-// create the map object 
-// var map = L.map("map", {
-//     center: [
-//         37.48, -98.75
-//     ],
-//     zoom: 3
-// });
+//create the map object 
+var map = L.map("map", {
+    center: [
+        35.48, -98.75
+    ],
+    zoom: 5,
+    layers: [grayScaleMap, imageMap]
+});
 
 // Add the tile layer to the map.
-// grayScaleMap.addTo(map);
+grayScaleMap.addTo(map);
 
 // create layer for the NBA team locations
 var TeamLoc = new L.LayerGroup();
 
 // create the basemap group
-// var baseMaps = {
-//     GrayScale: grayScaleMap,
-//     Satellite: imagemap
-// };
+var baseMaps = {
+    Satellite: imageMap,
+    GrayScale: grayScaleMap
+};
+
+// create overlays (for now, just the generic team location)
+var mapLayers = {
+    "Arena Size": TeamLoc
+};
+
+// add control to enable turning on and off layers
+L.control.layers(baseMaps, mapLayers).addTo(map);
 
 // URL for api from flask
 var location_path = "/heatmap_data2";
 console.log(location_path);
 d3.json(location_path, function(response) {
-    //console.log(response.LATITUDE);
     // var TeamVenue = [];
     function styleInfo(features) {
         return {
             opacity:1,
-            fillOpacity: 0.5,
+            fillOpacity: 0.75,
             fillColor: getColor(features.properties.POPULATION),
             radius: getRadius(features.properties.POPULATION),
             stroke: true,
@@ -63,17 +67,28 @@ d3.json(location_path, function(response) {
     }
 
     function getRadius(population) {
-        return population * .001;
+        switch (true) {
+        case population > 20000:
+            return 25;
+        case population > 19000:
+            return 20;
+        case population > 18000:
+            return 15;
+        default:
+            return 12;
+        }
     }
 
     function getColor(pop) {
         switch (true) {
         case pop > 20000:
-            return "red";
+            return "#ea2c2c";
         case pop > 19000:
-            return "blue";
+            return "#ea822c";
+        case pop > 18000:
+            return "#ee9c00";
         default:
-            return "yellow";
+            return "#98ee00";
         }
     }
 
@@ -86,15 +101,43 @@ d3.json(location_path, function(response) {
         style: styleInfo,
 
         onEachFeature: function(features, layer) {
-            layer.bindPopup("Team: " + features.properties.TEAM + "<br>Arena: " + features.properties.NAME);
+            layer.bindPopup("Team: " + features.properties.TEAM + "<br>Arena: " + features.properties.NAME + "<br>Arena Size: " +features.properties.POPULATION);
 
         }
     }).addTo(TeamLoc);
 
+    TeamLoc.addTo(map);
 
+    // create the legend control
+    var legend = L.control({
+        position: "bottomright"
+    });
+
+    // details for the legend
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "NBA legend");
+
+        var grades = [0, 18000, 19000, 20000];
+        var colors = [
+            "#98ee00",
+            "#ee9c00",
+            "#ea822c",
+            "#ea2c2c"
+        ];
+        labels = [];
+
+        // add title of the legend
+        div.innerHTML += '<b>Arena Size</b><br>'
+
+        // Loop through legend items and generate label with the associated color
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML += "<i style='background: " + colors[i] + "'></i> " +
+              grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "  <br>" : "+");
+          }
+          return div;
+    };
+
+    // add legend to the map
+    legend.addTo(map);
 
 });
-
-TeamLoc.addTo(map);
-
-// create legend for map
