@@ -27,6 +27,7 @@ app = Flask(__name__)
 
 import Draft
 import Matchup
+import json_geojson
 
 #################################################
 # Database Setup
@@ -177,41 +178,14 @@ def heatmap_data2():
     results_heat2 = db.session.query(Team_Loc).statement
     df = pd.read_sql_query(results_heat2, db.session.bind)
     
-    # Now get the needed data fields from the team location table.
+    #generate list of columns to include
+    properties = list(df.columns.values)
     
-    # Turn a dataframe containing point data into a geojson formatted python dictionary 
-    # df : the dataframe to convert to geojson
-    # properties : a list of columns in the dataframe to turn into geojson feature properties
-    # lat : the name of the column in the dataframe that contains latitude data
-    # lon : the name of the column in the dataframe that contains longitude data
+    #assign equivalent columns for the latitude and longitude
     lat = 'LATITUDE'
     lon = 'LONGITUDE'
-
-    # create python dict to contain geojson data, using geojson format. start with feature type...
-    geojson = {'type':'FeatureCollection', 'features':[]}
-
-    # loop through each row in dataframe and convert each row to geojson format
-    for _, row in df.iterrows():
-        #create the feature part to fill in (using the feature part of dict above)
-        feature = {'type':'Feature',
-                   'properties':{},
-                   'geometry':{'type':'Point',
-                               'coordinates':[]}}
-
-        #fill in coordinates (lat/long)
-        feature['geometry']['coordinates'] = [row[lon],row[lat]]
-        
-        needed_columns = list(df.columns.values)
-
-        #for each column in dataframe, get the value and add to properties.
-        for prop in needed_columns:
-            feature['properties'][prop] = row[prop]
-            
-        # add this feature from the dataframe row to the list of features in geojson
-        geojson['features'].append(feature)
-        
-    #geojson_str = json.dumps(geojson, indent=2)
-
+    
+    geojson = json_geojson.to_geojson(df, properties, lat, lon)
             
     return jsonify(geojson)
 
