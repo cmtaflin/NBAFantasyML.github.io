@@ -59,9 +59,13 @@ def week_games(teamId = 1610612740, personId = 201950, startday = 20190204):
     
     next_week_days = range(startday,startday+7)
     next_week = NBA_Schedule_DF_initial.loc[NBA_Schedule_DF_initial["startdateeastern"].isin(next_week_days),:].reset_index()
-    game_count=len(next_week["gameId"])
     
-    games_df = next_week[(next_week.aTeam_Id == teamId) | (next_week.hTeam_Id == teamId)]
+    away_games = next_week[(next_week.aTeam_Id == teamId)]
+    away_games["versus"] = away_games["hTeam_Id"]
+    home_games = next_week[(next_week.hTeam_Id == teamId)]
+    home_games["versus"] = home_games["aTeam_Id"]
+
+    games_df = pd.concat([home_games, away_games], axis = 0)
     
     return games_df;
 
@@ -101,7 +105,20 @@ def linear_reg(personId = 201950, startday = 20190204):
     training = [points, assists, rebounds, steals, turnovers, blocks, threes, field_goals, fg_attempts, free_throws, ft_attempts]
 
     # next week games
-    next_week = train[:len(week_games(train["teamId"][0], personId, startday))]
+    next_week = week_games(train["teamId"][0], personId, startday)
+    next_week = pd.merge(vs_team, next_week, on="versus", how="inner")
+    
+    game_count=len(next_week)
+    current_season_stats = pd.read_sql('select * from season_2018_2019', conn)
+    this_season = current_season_stats[current_season_stats.personId == 201950] 
+    this_season["fgp"] = this_season["fgp"]*100
+    this_season["tpp"] = this_season["tpp"]*100
+    this_season["ftp"] = this_season["ftp"]*100
+    
+    this_season = this_season.append([this_season]*(game_count-1),ignore_index=True)
+    next_week = pd.concat([next_week, this_season], axis = 1)
+    
+    #next_week = train[:len(week_games(train["teamId"][0], personId, startday))]
     
     for x in range(11):
         X = train[training[x]]
