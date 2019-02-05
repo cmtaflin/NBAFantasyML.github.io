@@ -155,7 +155,7 @@ def fantasy_matchup(team1_id = 7110302001, team2_id = 7110302002, startday = 201
     
     # pull in data for 2 teams
     df = pd.read_sql('select * from fantasy_league', conn)
-    team1 = df[df.Fantasy_Team_ID == team1_id]
+    team1 = df[df.Fantasy_Team_ID == team1_id].reset_index()
     team2 = df[df.Fantasy_Team_ID == team2_id].reset_index()
     
     # run lin_reg for each player
