@@ -118,6 +118,17 @@ def matchup_data():
         
     return jsonify(matchupData)
 
+@app.route("/matchup_data/<fteam1>/<fteam2>")
+def matchup_data2(fteam1, fteam2):
+    fteam1 = int(fteam1)
+    fteam2 = int(fteam2)
+    matchup_info2 = Matchup.fantasy_matchup(fteam1, fteam2)
+    matchupData2 = matchup_info2.to_dict('dict')
+    #temp = matchup_info.to_dict('records')
+    #matchupData = [dict(i) for i in temp]
+        
+    return jsonify(matchupData2)
+
 
 @app.route("/heatmap_data")
 def heatmap_data():
