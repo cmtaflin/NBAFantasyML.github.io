@@ -79,21 +79,7 @@ def linear_reg(personId = 201950, startday = 20190204):
     # take in one player
     train = df[df.personId == personId]
     train = train[train.dnp == ""].reset_index()
-    
-    # check home or away
-    home_flag = []
-    versus_team = []
-    for x in range(0, len(train)):
-        if train["hTeam_Id"][x] == train["teamId"][x]:
-            home_flag.append(1)
-            versus_team.append(train["vTeam_Id"][x])
-        else:
-            home_flag.append(0)
-            versus_team.append(train["hTeam_Id"][x])
-
-    train["home"] = home_flag
-    train["versus"] = versus_team
-
+   
     train = pd.merge(vs_team, train, on="versus", how="inner")
 
     # categories
