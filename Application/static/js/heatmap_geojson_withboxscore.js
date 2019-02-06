@@ -181,7 +181,7 @@ d3.json(location_path, function(response) {
         labels = [];
 
         // add title of the legend
-        div.innerHTML += '<b>Average Points Per Game</b><br>'
+        div.innerHTML += "<b>Average Points <br>Per Game</b><br>"
 
         // Loop through legend items and generate label with the associated color
         for (var i = 0; i < grades.length; i++) {
@@ -206,7 +206,7 @@ d3.json(location_path, function(response) {
         labels = [];
 
         // add title of the legend
-        div.innerHTML += '<b>Average Steals Per Game</b><br>'
+        div.innerHTML += '<b>Average Steals <br>Per Game</b><br>'
 
         // Loop through legend items and generate label with the associated color
         for (var i = 0; i < grades.length; i++) {
@@ -223,15 +223,15 @@ d3.json(location_path, function(response) {
 
         var grades = [0, 46, 48, 51];
         var colors = [
-            "#bdc9e1",
-            "#74a9cf",
-            "#2b8cbe",
-            "#045a8d"
+            "#fbb4b9",
+            "#f768a1",
+            "#c51b8a",
+            "#7a0177"
         ];
         labels = [];
 
         // add title of the legend
-        div.innerHTML += '<b>Average Assists Per Game</b><br>'
+        div.innerHTML += '<b>Average Assists <br>Per Game</b><br>'
 
         // Loop through legend items and generate label with the associated color
         for (var i = 0; i < grades.length; i++) {
@@ -386,13 +386,13 @@ d3.json(location_path, function(response) {
         function getColorAssists(assists) {
             switch (true) {
             case assists > 51:
-                return "#045a8d";
+                return "#7a0177";
             case assists > 48:
-                return "#2b8cbe";
+                return "#c51b8a";
             case assists > 46:
-                return "#74a9cf";
+                return "#f768a1";
             default:
-                return "#bdc9e1";
+                return "#fbb4b9";
             }
         }
 
@@ -403,7 +403,7 @@ d3.json(location_path, function(response) {
     
             style: styleInfoAssists,    
             onEachFeature: boxscorePopup
-            
+
         }).addTo(LocationAssists);
 
     });
