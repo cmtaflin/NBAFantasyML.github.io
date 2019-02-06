@@ -106,8 +106,9 @@ def draft_roster(roster_size, num_teams):
     #draftData = draft_info.to_json(orient='table')
     temp_data = draft_info2.to_dict('records')
     draftData2 = [dict(i) for i in temp_data]
-        
-    return jsonify(draftData2)
+
+    return json2html.convert(json = draftData2)    
+    #return jsonify(draftData2)
 
 @app.route("/matchup_data")
 def matchup_data():
