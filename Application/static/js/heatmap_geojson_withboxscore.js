@@ -61,7 +61,7 @@ L.control.layers(mapLayers, null, {
 }).addTo(map);
 
 // URL for api from flask
-var location_path = "/heatmap_data2";
+var location_path = "/heatmap_data";
 console.log(location_path);
 d3.json(location_path, function(response) {
     // var TeamVenue = [];

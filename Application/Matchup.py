@@ -149,7 +149,15 @@ def linear_reg(personId = 201950, startday = 20190204):
 
     return weekly_prediction.to_frame();
 
-def fantasy_matchup(team1_id = 7110302001, team2_id = 7110302002, startday = 20190204):
+
+# def fantasy_matchup(team1_id = 7110302001, team2_id = 7110302002, startday = 20190204):
+def get_ids(name):
+    conn = conntest()
+    get_team_id = pd.read_sql(f"select DISTINCT Fantasy_Team_ID from fantasy_league where Fantasy_Team_Name='{name}'", conn)
+    return get_team_id
+
+
+def fantasy_matchup(team1_id, team2_id, startday = 20190204):
     
     conn = conntest()
     

@@ -110,6 +110,7 @@ def draft_roster(roster_size, num_teams):
     return json2html.convert(json = draftData2)    
     #return jsonify(draftData2)
 
+    
 @app.route("/matchup_data")
 def matchup_data():
     
@@ -119,6 +120,7 @@ def matchup_data():
     #matchupData = [dict(i) for i in temp]
         
     return jsonify(matchupData)
+
 
 @app.route("/matchup_data/<fteam1>/<fteam2>")
 def matchup_data2(fteam1, fteam2):
@@ -132,60 +134,16 @@ def matchup_data2(fteam1, fteam2):
     return jsonify(matchupData2)
 
 
+@app.route("/getids/<name>")
+def get_ids(name):
+    ids = Matchup.get_ids(name)
+    id_1 = ids.to_dict('dict')
+    
+    return jsonify(id_1)
+
+
 @app.route("/heatmap_data")
 def heatmap_data():
-    
-    # Use Pandas to perform the sql query
-    results_heat = db.session.query(Team_Loc).all()
-    
-    # Now get the needed data fields from the team location table.
-    heat_data = []
-    for result in results_heat:
-        heat_dict = {}
-        heat_dict["VENUEID"] = result.VENUEID
-        heat_dict["NAME"] = result.NAME
-        heat_dict["LATITUDE"] = result.LATITUDE
-        heat_dict["LONGITUDE"] = result.LONGITUDE
-        heat_dict["TEAM"] = result.TEAM
-        heat_dict["POPULATION"] = result.POPULATION
-        heat_dict["city_name"] = result.city_name
-        heat_dict["Dist_to_Toronto"] = result.Dist_to_Toronto
-        heat_dict["Dist_to_Dallas"] = result.Dist_to_Dallas
-        heat_dict["Dist_to_SanAntonio"] = result.Dist_to_SanAntonio
-        heat_dict["Dist_to_LosAngeles"] = result.Dist_to_LosAngeles
-        heat_dict["Dist_to_Washington"] = result.Dist_to_Washington
-        heat_dict["Dist_to_Indiana"] = result.Dist_to_Indiana
-        heat_dict["Dist_to_Philadelphia"] = result.Dist_to_Philadelphia
-        heat_dict["Dist_to_Chicago"] = result.Dist_to_Chicago
-        heat_dict["Dist_to_Milwaukee"] = result.Dist_to_Milwaukee
-        heat_dict["Dist_to_Minnesota"] = result.Dist_to_Minnesota
-        heat_dict["Dist_to_Memphis"] = result.Dist_to_Memphis
-        heat_dict["Dist_to_NewYork"] = result.Dist_to_NewYork
-        heat_dict["Dist_to_Denver"] = result.Dist_to_Denver
-        heat_dict["Dist_to_Atlanta"] = result.Dist_to_Atlanta
-        heat_dict["Dist_to_Boston"] = result.Dist_to_Boston
-        heat_dict["Dist_to_Phoenix"] = result.Dist_to_Phoenix
-        heat_dict["Dist_to_Miami"] = result.Dist_to_Miami
-        heat_dict["Dist_to_Sacramento"] = result.Dist_to_Sacramento
-        heat_dict["Dist_to_Utah"] = result.Dist_to_Utah
-        heat_dict["Dist_to_Cleveland"] = result.Dist_to_Cleveland
-        heat_dict["Dist_to_GoldenState"] = result.Dist_to_GoldenState
-        heat_dict["Dist_to_NewOrleans"] = result.Dist_to_NewOrleans
-        heat_dict["Dist_to_Portland"] = result.Dist_to_Portland
-        heat_dict["Dist_to_Charlotte"] = result.Dist_to_Charlotte
-        heat_dict["Dist_to_Houston"] = result.Dist_to_Houston
-        heat_dict["Dist_to_Detroit"] = result.Dist_to_Detroit
-        heat_dict["Dist_to_OklahomaCity"] = result.Dist_to_OklahomaCity
-        heat_dict["Dist_to_Orlando"] = result.Dist_to_Orlando
-        heat_dict["Dist_to_Brooklyn"] = result.Dist_to_Brooklyn
-        heat_data.append(heat_dict)
-            
-    return jsonify(heat_data)
-
-
-
-@app.route("/heatmap_data2")
-def heatmap_data2():
     
     # Use Pandas to perform the sql query
     results_heat2 = db.session.query(Team_Loc).statement
