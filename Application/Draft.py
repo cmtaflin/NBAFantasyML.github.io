@@ -29,7 +29,6 @@ def conntest():
 def zscore(df, sample_size=130, min_games=10):
     
     if "TOP" in df.columns:
-        print("top")
         sample_size = df["TOP"].sum()
         top_players = df[df["TOP"]==1]
     else:
@@ -56,8 +55,10 @@ def zscore(df, sample_size=130, min_games=10):
     df["zAVG"] = (df["zFG"] + df["zFT"] + df["z3P"] + df["zPTS"] + df["zREB"] + df["zAST"] + df["zSTL"] + df["zBLK"] + df["zTOV"]) / 9
 
     # rank by avg z-score
-    df = df.sort_values("zAVG", ascending = False).reset_index(drop=True)
+    df = df.sort_values("zAVG", ascending = False)
+    df.reset_index(inplace=True)
     df.index += 1
+    df['Rank'] = df.index
     
     # exclude players with less than a set amount of games (default 10)
     df = df[df.G >= min_games]
@@ -111,6 +112,6 @@ def log_regression(season, roster_size = 13, num_teams = 10, min_games = 10):
     next_df["TOP"] = predictions
     print(f"z-score calculated with {next_df['TOP'].sum()} top players")
     next_df = zscore(next_df, sample_size)
-    next_df.index.name = "Rank"
+    #next_df.index.name = "Rank"
     
     return next_df;
