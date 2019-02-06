@@ -37,6 +37,7 @@ grayScaleMap.addTo(map);
 var TeamLoc = new L.LayerGroup();
 var LocationPoints = new L.LayerGroup();
 var LocationSteals = new L.LayerGroup();
+var LocationAssists = new L.LayerGroup();
 
 // create the basemap group
 var baseMaps = {
@@ -47,8 +48,9 @@ var baseMaps = {
 // create overlays (for now, just the generic team location)
 var mapLayers = {
     "Arena Size": TeamLoc,
-    "Points Per Game": LocationPoints,
-    "Steals Per Game": LocationSteals
+    "Total Points Per Game": LocationPoints,
+    "Total Steals Per Game": LocationSteals,
+    "Total Assists Per Game": LocationAssists
 };
 
 // add controls to enable turning on and off layers
@@ -129,6 +131,15 @@ d3.json(location_path, function(response) {
         position: "bottomright"
     });
 
+    var LocationAssistsL = L.control({
+        position: "bottomright"
+    });
+
+
+
+
+    // This section holds the various legends, based on the layer selected.
+
     // details for the team location legend
     TeamLocL.onAdd = function() {
         var div = L.DomUtil.create("div", "NBA legend");
@@ -153,7 +164,7 @@ d3.json(location_path, function(response) {
           return div;
     };
 
-    // add legend to the map
+    // add legend to the map. this is the default legend for the default visible layer
     TeamLocL.addTo(map);
 
     // details for the Average points legend
@@ -206,6 +217,41 @@ d3.json(location_path, function(response) {
     };
 
 
+    // details for the Average assists legend
+    LocationAssistsL.onAdd = function() {
+        var div = L.DomUtil.create("div", "NBA legend");
+
+        var grades = [0, 46, 48, 51];
+        var colors = [
+            "#bdc9e1",
+            "#74a9cf",
+            "#2b8cbe",
+            "#045a8d"
+        ];
+        labels = [];
+
+        // add title of the legend
+        div.innerHTML += '<b>Average Assists Per Game</b><br>'
+
+        // Loop through legend items and generate label with the associated color
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML += "<i style='background: " + colors[i] + "'></i> " +
+                grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "  <br>" : "+");
+            }
+            return div;
+    };
+
+
+    // pop-up function for all of the boxscore data results
+    function boxscorePopup(features, layer) {
+        layer.bindPopup("<b>" + features.properties.NAME + "</b>" + "<br>Points Per Game: " + 
+            features.properties.points + "<br>Steals Per Game: " + features.properties.steals +
+            "<br>Rebounds Per Game: " + features.properties.totReb +
+            "<br>Assists Per Game: " + features.properties.assists);
+
+    }
+
+
     var boxscore_path = "/boxscore_data";
 
     d3.json(boxscore_path, function(response2) {
@@ -250,22 +296,16 @@ d3.json(location_path, function(response) {
             pointToLayer: function(features, latlng) {
                 return L.circleMarker(latlng);
             },
-    
             style: styleInfoPoints,
-    
-            onEachFeature: function(features, layer) {
-                layer.bindPopup("<b>" + features.properties.NAME + "</b>" + "<br>Points Per Game: " + 
-                    features.properties.points + "<br>Steals Per Game: " + features.properties.steals +
-                    "<br>Rebounds Per Game: " + features.properties.totReb);
-    
-            }
+            onEachFeature: boxscorePopup
+
         }).addTo(LocationPoints);
 
-        // add points per game layer to the map.
-        // LocationPoints.addTo(map);
 
     });
 
+
+    // This loads the boxscore data and creates circle markers based on steals
     d3.json(boxscore_path, function(response3) {
         function styleInfoSteals(features) {
             return {
@@ -309,21 +349,66 @@ d3.json(location_path, function(response) {
                 return L.circleMarker(latlng);
             },
     
-            style: styleInfoSteals,
-    
-            onEachFeature: function(features, layer) {
-                layer.bindPopup("<b>" + features.properties.NAME + "</b>" + "<br>Points Per Game: " + 
-                    features.properties.points + "<br>Steals Per Game: " + features.properties.steals +
-                    "<br>Rebounds Per Game: " + features.properties.totReb);
-    
-            }
-        }).addTo(LocationSteals);
+            style: styleInfoSteals,    
+            onEachFeature: boxscorePopup
 
-        // add points per game layer to the map.
-        // LocationPoints.addTo(map);
+        }).addTo(LocationSteals);
 
     });
 
+
+    // read boxscore data for assists and generate the circle markers
+    d3.json(boxscore_path, function(response4) {
+        function styleInfoAssists(features) {
+            return {
+                opacity:1,
+                fillOpacity: 0.75,
+                fillColor: getColorAssists(features.properties.assists),
+                radius: getRadiusAssists(features.properties.assists),
+                stroke: true,
+                weight: 0.2
+            };
+        }
+
+        function getRadiusAssists(assists) {
+            switch (true) {
+            case assists > 51:
+                return 25;
+            case assists > 48:
+                return 20;
+            case assists > 46:
+                return 15;
+            default:
+                return 12;
+            }
+        }
+
+        function getColorAssists(assists) {
+            switch (true) {
+            case assists > 51:
+                return "#045a8d";
+            case assists > 48:
+                return "#2b8cbe";
+            case assists > 46:
+                return "#74a9cf";
+            default:
+                return "#bdc9e1";
+            }
+        }
+
+        L.geoJson(response4, {
+            pointToLayer: function(features, latlng) {
+                return L.circleMarker(latlng);
+            },
+    
+            style: styleInfoAssists,    
+            onEachFeature: boxscorePopup
+            
+        }).addTo(LocationAssists);
+
+    });
+
+    // add event listener to turn on/off legend based on the layer visible.
     map.on('baselayerchange', function(eventLayer) {
         console.log("clicked on base layer: " + eventLayer.name);
 
@@ -331,16 +416,25 @@ d3.json(location_path, function(response) {
             TeamLocL.addTo(map);
             map.removeControl(LocationPointsL);
             map.removeControl(LocationStealsL);
+            map.removeControl(LocationAssistsL);
         } else
-        if (eventLayer.name === "Points Per Game") {
+        if (eventLayer.name === "Total Points Per Game") {
             LocationPointsL.addTo(map);
             map.removeControl(TeamLocL);
             map.removeControl(LocationStealsL);
+            map.removeControl(LocationAssistsL);
         } else 
-        if (eventLayer.name === "Steals Per Game") {
+        if (eventLayer.name === "Total Steals Per Game") {
             LocationStealsL.addTo(map);
             map.removeControl(TeamLocL);
             map.removeControl(LocationPointsL);
+            map.removeControl(LocationAssistsL);
+        } else
+        if (eventLayer.name === "Total Assists Per Game") {
+            LocationAssistsL.addTo(map);
+            map.removeControl(TeamLocL);
+            map.removeControl(LocationPointsL);
+            map.removeControl(LocationStealsL);
         }
     });
 
