@@ -5,7 +5,7 @@ function getSelectedValue(id) {
   d3.json(`/getids/${selectedValue}`).then(function (response) {
     // console.log(response);
     swal({
-      text: "Applying Theatre Soda Layer...Please Wait!",
+      text: "Calculating...Please Wait!",
       showCloseButton: false,
       showCancelButton: false,
       showConfirmButton: false,

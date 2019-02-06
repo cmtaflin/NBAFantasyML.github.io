@@ -73,6 +73,19 @@ background: lightgrey;
   background: lightgrey;
 }
 
+.teamname {
+  padding-left: 30px;
+}
+
+.dropd {
+  padding-left: 30px;
+}
+
+.tvalue{
+  padding-left: 30px;
+  padding-right: 10px;
+}
+
 .box1 {
 height: 20px;
 padding: 0px;
