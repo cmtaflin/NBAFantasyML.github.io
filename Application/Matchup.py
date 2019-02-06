@@ -157,7 +157,7 @@ def get_ids(name):
     return get_team_id
 
 
-def fantasy_matchup(team1_id, team2_id, startday = 20190204):
+def fantasy_matchup(team1_id = 7110302001, team2_id = 7110302001, startday = 20190204):
     
     conn = conntest()
     
