@@ -10,6 +10,7 @@ import os
 import pandas as pd
 import numpy as np
 import json
+from json2html import *
 
 #commenting out mySQL reference since we are using SQLite
 #import pymysql
@@ -84,7 +85,6 @@ def pointsposition():
     
     return render_template("pointsposition.html")
 
-
 @app.route("/draft_data")
 def draft_data():
     
@@ -96,43 +96,52 @@ def draft_data():
         
     return jsonify(draftData)
 
-
-@app.route("/draft_data/<roster_size>/<num_teams>")
+@app.route("/json_draft_data/<roster_size>/<num_teams>")
 def draft_roster(roster_size, num_teams):
     roster_size = pd.to_numeric(roster_size).astype("int")
     num_teams = pd.to_numeric(num_teams).astype("int")
     draft_info2 = Draft.log_regression(2016,roster_size,num_teams,10)
     #draftData = json.loads(draft_info.to_json(orient='records'))
     #draftData = draft_info.to_json(orient='table')
+    #draft_info2 = draft_info2[['Rank','Player', 'zFT', 'z3P', 'zPTS', 'zREB', 'zAST', 'zSTL', 'zBLK', 'zTOV', 'zAVG']]
+    #draft_info2 = draft_info2.round({'zFT': 2, 'z3P': 2, 'zPTS': 2, 'zREB': 2, 'zAST': 2, 'zSTL': 2, 'zBLK': 2, 'zTOV': 2, 'zAVG': 2})
     temp_data = draft_info2.to_dict('records')
     draftData2 = [dict(i) for i in temp_data]
+    return jsonify(draftData2)
 
-    return json2html.convert(json = draftData2)    
+@app.route("/draft_data/<roster_size>/<num_teams>")
+def draft_roster1(roster_size, num_teams):
+    roster_size = pd.to_numeric(roster_size).astype("int")
+    num_teams = pd.to_numeric(num_teams).astype("int")
+    draft_info2 = Draft.log_regression(2016,roster_size,num_teams,10)
+    #draftData = json.loads(draft_info.to_json(orient='records'))
+    #draftData = draft_info.to_json(orient='table')
+    draft_info2 = draft_info2[['Rank','Player', 'zFT', 'z3P', 'zPTS', 'zREB', 'zAST', 'zSTL', 'zBLK', 'zTOV', 'zAVG']]
+    draft_info2 = draft_info2.round({'zFT': 2, 'z3P': 2, 'zPTS': 2, 'zREB': 2, 'zAST': 2, 'zSTL': 2, 'zBLK': 2, 'zTOV': 2, 'zAVG': 2})
+    temp_data = draft_info2.to_dict('records')
+    draftData2 = [dict(i) for i in temp_data]
+    return json2html.convert(json = draftData2) 
     #return jsonify(draftData2)
 
-    
 @app.route("/matchup_data")
 def matchup_data():
-    
+        
     matchup_info = Matchup.fantasy_matchup()
+    matchup_info = matchup_info.round({"team1": 2, "team2": 2})
     matchupData = matchup_info.to_dict('dict')
-    #temp = matchup_info.to_dict('records')
-    #matchupData = [dict(i) for i in temp]
         
     return jsonify(matchupData)
 
-
 @app.route("/matchup_data/<fteam1>/<fteam2>")
 def matchup_data2(fteam1, fteam2):
+    
     fteam1 = int(fteam1)
     fteam2 = int(fteam2)
     matchup_info2 = Matchup.fantasy_matchup(fteam1, fteam2)
+    matchup_info2 = matchup_info2.round({"team1": 2, "team2": 2})
     matchupData2 = matchup_info2.to_dict('dict')
-    #temp = matchup_info.to_dict('records')
-    #matchupData = [dict(i) for i in temp]
         
     return jsonify(matchupData2)
-
 
 @app.route("/getids/<name>")
 def get_ids(name):
@@ -159,9 +168,6 @@ def heatmap_data():
     geojson = json_geojson.to_geojson(df, properties, lat, lon)
             
     return jsonify(geojson)
-
-
-
 
 @app.route("/boxscore_data")
 def boxscore_data():
