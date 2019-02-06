@@ -235,5 +235,47 @@ def boxscore_data():
     return jsonify(geojson_boxscore)
 
 
+#testing out the NBA graphs
+@app.route("/pointsposition_test")
+def pointsposition_test():
+    
+    
+    return render_template("pointsposition_test.html")
+
+
+@app.route("/NBA-graph/center")
+def graph_center():
+    
+    
+    return render_template("/NBA-graph/center.html")
+
+
+@app.route("/NBA-graph/powerforward")
+def graph_powerforward():
+    
+    
+    return render_template("/NBA-graph/powerforward.html")
+
+
+@app.route("/NBA-graph/smallforward")
+def graph_smallforward():
+    
+    
+    return render_template("/NBA-graph/smallforward.html")
+
+
+@app.route("/NBA-graph/shootingguard")
+def graph_shootingguard():
+    
+    
+    return render_template("/NBA-graph/shootingguard.html")
+
+
+@app.route("/NBA-graph/pointguard")
+def graph_pointguard():
+    
+    
+    return render_template("/NBA-graph/pointguard.html")
+
 if __name__ == "__main__":
    app.run(debug=True)
