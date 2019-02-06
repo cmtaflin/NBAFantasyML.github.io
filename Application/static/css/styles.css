@@ -108,7 +108,7 @@ font: bold;
   }
 
 .box3 {
-  height: 600px;  
+  height: 450px;
   background: #f8f8f5;
   border-top: 1px solid #0d48b6;
   border-right: 1px solid #0d48b6;
@@ -116,8 +116,9 @@ font: bold;
   border-bottom: 1px solid #0d48b6;
   padding-right: 15px;
   padding-left: 15px;
+  color:#0d48b6;
   }
-  .box4 {
+.box4 {
   height: 500px;  
   background: #f8f8f5;
   border-top: 1px solid #0d48b6;
