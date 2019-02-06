@@ -1,0 +1,82 @@
+/* style sheet for the graph web page. */
+
+.dropbtn {
+  background-color: black;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: lightgrey;
+  min-width: 200px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: lightgrey;
+  min-width: 200px;
+  z-index: 1;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: lightgrey;
+  min-width: 200px;
+  z-index: 1;
+}
+
+.dropdown-content a:hover {background-color: white;}
+.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropbtn {background-color: grey;}
+
+.bar {
+  fill: orange;
+}
+
+.bar:hover {
+  fill: green;
+}
+
+.bar:hover {
+  fill: blue;
+}
+
+.bar:hover {
+  fill: red;
+}
+
+.bar:hover {
+  fill: yellow;
+}
+
+.bar:hover {
+  fill: purple;
+}
+
+.bar:hover {
+  fill: pink;
+}
+
+.bar:hover {
+  fill: black;
+}
