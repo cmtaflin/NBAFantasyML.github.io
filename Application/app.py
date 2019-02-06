@@ -220,6 +220,7 @@ def boxscore_data():
     tot_game_points = game_data["points"].sum()
     tot_game_steals = game_data["steals"].sum()
     tot_game_Reb = game_data["totReb"].sum()
+    tot_game_assists = game_data["assists"].sum()
     
     # get the unique list of games/city combinations
     venue_gameId = game_data["city_name"].first()
@@ -228,29 +229,33 @@ def boxscore_data():
     df_tot_points = pd.DataFrame(tot_game_points)
     df_tot_steals = pd.DataFrame(tot_game_steals)
     df_tot_Reb = pd.DataFrame(tot_game_Reb)
+    df_tot_assists = pd.DataFrame(tot_game_assists)
     df_city_game = pd.DataFrame(venue_gameId)
     
     # merge dataframes into one
-    game_info = pd.merge(pd.merge(pd.merge(df_tot_points, df_tot_steals, on="gameId"), df_tot_Reb, on="gameId"), df_city_game, on="gameId")
+    game_info = pd.merge(pd.merge(pd.merge(pd.merge(df_tot_points, df_tot_steals, on="gameId"), df_tot_Reb, on="gameId"), 
+                                  df_city_game, on="gameId"), df_tot_assists, on="gameId")
     
     # now group by city to get stats per location
     group_by_city = game_info.groupby("city_name")
     ppg = group_by_city["points"].mean().round(2)
     spg = group_by_city["steals"].mean().round(2)
     rpg = group_by_city["totReb"].mean().round(2)
+    apg = group_by_city["assists"].mean().round(2)
     
     # create dataframes for the data above
     ppg_df = pd.DataFrame(ppg)
     spg_df = pd.DataFrame(spg)
     rpg_df = pd.DataFrame(rpg)
+    apg_df = pd.DataFrame(apg)
     
     # bring in team location data table so we can make a geojson
     results_Loc = db.session.query(Team_Loc).statement
     Loc_df = pd.read_sql_query(results_Loc, db.session.bind)
     
     # create final dataframe by merging the boxscore data into the location table
-    Loc_data = pd.merge(pd.merge(pd.merge(Loc_df, ppg_df, on="city_name"), spg_df, on="city_name"), 
-                     rpg_df, on="city_name")
+    Loc_data = pd.merge(pd.merge(pd.merge(pd.merge(Loc_df, ppg_df, on="city_name"), spg_df, on="city_name"), 
+                     rpg_df, on="city_name"), apg_df, on="city_name")
 
     
     #generate list of columns to include in final geojson
