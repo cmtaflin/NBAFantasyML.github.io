@@ -1,0 +1,37 @@
+CREATE DATABASE nbafantasyml;
+
+CREATE TABLE Yearly_Player_Stats
+    (UNIQUE_ID AUTO_INCREMENT,
+    personId VARCHAR(40),
+    seasonYear VARCHAR(40),
+    PTG FLOAT,
+    TRB FLOAT,
+    AST FLOAT,
+    MPG FLOAT,
+    TOV FLOAT,
+    STL FLOAT,
+    BLK FLOAT,
+    FG FLOAT,
+    FGA FLOAT,
+    FGP FLOAT,
+    FT FLOAT,
+    FTA FLOAT,
+    FTP FLOAT,
+    PLUSMINUS FLOAT
+    PRIMARY KEY (personId))
+
+CREATE TABLE NBA_TEAMS
+   (teamId VARCHAR(40),
+    teamFullName VARCHAR(40),
+    teamURLcode VARCHAR(40),
+    city VARCHAR(40),
+    conferenceName VARCHAR(40),
+    divisionName VARCHAR(40),
+    PRIMARY KEY (teamId));   
+
+CREATE TABLE NBA_SCHEDULE_GAME_DATE
+   (gameId VARCHAR(40),
+    startDateEastern VARCHAR(40),
+    PRIMARY KEY (gameId));
+
+        

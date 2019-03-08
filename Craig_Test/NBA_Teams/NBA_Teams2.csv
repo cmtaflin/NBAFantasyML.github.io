@@ -1,0 +1,31 @@
+teamId,teamFullName,teamURLcode,city,conferenceName,divisionName
+1610612738,Boston Celtics,celtics,Boston,East,Atlantic
+1610612751,Brooklyn Nets,nets,Brooklyn,East,Atlantic
+1610612752,New York Knicks,knicks,New York,East,Atlantic
+1610612755,Philadelphia 76ers,sixers,Philadelphia,East,Atlantic
+1610612761,Toronto Raptors,raptors,Toronto,East,Atlantic
+1610612741,Chicago Bulls,bulls,Chicago,East,Central
+1610612739,Cleveland Cavaliers,cavaliers,Cleveland,East,Central
+1610612765,Detroit Pistons,pistons,Detroit,East,Central
+1610612754,Indiana Pacers,pacers,Indiana,East,Central
+1610612749,Milwaukee Bucks,bucks,Milwaukee,East,Central
+1610612743,Denver Nuggets,nuggets,Denver,West,Northwest
+1610612750,Minnesota Timberwolves,timberwolves,Minnesota,West,Northwest
+1610612760,Oklahoma City Thunder,thunder,Oklahoma City,West,Northwest
+1610612757,Portland Trail Blazers,blazers,Portland,West,Northwest
+1610612762,Utah Jazz,jazz,Utah,West,Northwest
+1610612744,Golden State Warriors,warriors,Golden State,West,Pacific
+1610612746,LA Clippers,clippers,LA,West,Pacific
+1610612747,Los Angeles Lakers,lakers,Los Angeles,West,Pacific
+1610612756,Phoenix Suns,suns,Phoenix,West,Pacific
+1610612758,Sacramento Kings,kings,Sacramento,West,Pacific
+1610612737,Atlanta Hawks,hawks,Atlanta,East,Southeast
+1610612766,Charlotte Hornets,hornets,Charlotte,East,Southeast
+1610612748,Miami Heat,heat,Miami,East,Southeast
+1610612753,Orlando Magic,magic,Orlando,East,Southeast
+1610612764,Washington Wizards,wizards,Washington,East,Southeast
+1610612742,Dallas Mavericks,mavericks,Dallas,West,Southwest
+1610612745,Houston Rockets,rockets,Houston,West,Southwest
+1610612763,Memphis Grizzlies,grizzlies,Memphis,West,Southwest
+1610612740,New Orleans Pelicans,pelicans,New Orleans,West,Southwest
+1610612759,San Antonio Spurs,spurs,San Antonio,West,Southwest
